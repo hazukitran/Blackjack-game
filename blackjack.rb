@@ -1,25 +1,4 @@
 
-# Create Deck
-# Give 2 cards to player
-# Give 2 cards to dealer
-# Ask player for hit or stay
-#  - If hit add 1 card
-#  - If stay move to dealer turn
-# Dealer opens cards
-# If cards less than 17 dealer hits until over 17 or bust
-# Compare sums to find out winner
-
-# 4 decks of 52 cards
-# Natural balckjack Ace + 10
-# Natural blackjack beats any other hand of 3+ cards
-# Soft hand - ace is counted 1 or 11 without busting
-# Hard hand - ace is counter as a 1 only
-# Player cards are dealt face up
-# Dealer hand dealt one up one down
-# Options: Hit, Stand, Double Down, Split
-# Dealer must stand on 17, draw until then
-# If it's a draw, player gets bet back
-
 # ----------------- METHODS -----------------------
 
 def welcome_message(player_name)
@@ -53,17 +32,21 @@ def calculate_total(cards)
     else
       total += value.to_i
     end
+  end
 
   arr.select { |e| e == "A" }.count.times do
     total -= 10 if total > 21
   end
+
+  total
 end
 
 def check_winner(total, name)
   if total == 21
     puts "Congrats! #{name}, you hit blackjack!" 
-  else total > 21
+  elsif total > 21
     puts "Sorry #{name}, you busted."
+    exit
   end
 end
 
@@ -103,6 +86,7 @@ begin
 
   puts "Your have: #{player_hand[0]} and #{player_hand[1]}"
   player_total = calculate_total(player_hand)
+  puts player_total
   check_winner(player_total, player_name)
 
   while player_total < 21
@@ -131,20 +115,23 @@ begin
 
   if dealer_total < 17
     dealer_hand << deal_card(deck)
-    dealer_total = calculate_total(player_hand)
+    dealer_total = calculate_total(dealer_hand)
 
     check_winner(dealer_total, "dealer")
   end
 
   puts "Your cards: "
   player_hand.each { |card| puts "#{card}"}
+  puts player_total
   puts ""
   puts "Dealer's cards: "
   dealer_hand.each { |card| puts "#{card}"}
-
-  announce_winner(player_total, dealer_total)
+  puts dealer_total
+  puts ""
+  
+  announce_winner(dealer_total, player_total)
 
   puts "Play again? (y/n)"
   response = gets.chomp.downcase
-  
+
 end until response == 'n'
