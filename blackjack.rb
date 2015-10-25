@@ -86,8 +86,13 @@ begin
 
   puts "Your have: #{player_hand[0]} and #{player_hand[1]}"
   player_total = calculate_total(player_hand)
-  puts player_total
+  puts "Your current total is: #{player_total}"
+  puts ""
+  puts "Dealer have: #{dealer_hand[0]} and #{dealer_hand[1]}"
+
   check_winner(player_total, player_name)
+
+ 
 
   while player_total < 21
     puts "Would you like to? (1) hit or (2) stay"
