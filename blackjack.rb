@@ -41,7 +41,7 @@ def calculate_total(cards)
   total
 end
 
-def check_winner(total, name)
+def check_for_game_over(total, name)
   if total == 21
     puts "Congrats! #{name}, you hit blackjack!" 
   elsif total > 21
@@ -90,15 +90,13 @@ begin
   puts ""
   puts "Dealer have: #{dealer_hand[0]} and #{dealer_hand[1]}"
 
-  check_winner(player_total, player_name)
-
- 
+  check_for_game_over(player_total, player_name)
 
   while player_total < 21
     puts "Would you like to? (1) hit or (2) stay"
     hit_or_stay = gets.chomp
 
-    if !['1', '2'].include?(hit_or_stay)
+    unless ['1', '2'].include?(hit_or_stay)
       puts "Invalid input: You must enter 1 or 2"
       next
     end
@@ -110,19 +108,19 @@ begin
   
     player_total = calculate_total(player_hand)
     puts "Your new total is: #{player_total}"
-    check_winner(player_total, player_name)
+    check_for_game_over(player_total, player_name)
   end
 
 # -------- Dealer turn ---------
 
   dealer_total = calculate_total(dealer_hand)
-  check_winner(dealer_total, "dealer")
+  check_for_game_over(dealer_total, "dealer")
 
-  if dealer_total < 17
+  while dealer_total < 17
     dealer_hand << deal_card(deck)
     dealer_total = calculate_total(dealer_hand)
 
-    check_winner(dealer_total, "dealer")
+    check_for_game_over(dealer_total, "dealer")
   end
 
   puts "Your cards: "
